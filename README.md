@@ -20,7 +20,8 @@ The primary goal of this project is to design and implement a comprehensive univ
 4. E-bike Registration System
 5. Forum Platform
 6. Theme Customization
-7. System Logging
+7. AI Assistant
+8. System Logging
 
 ### Preview this project
 
@@ -74,6 +75,8 @@ URL: http://localhost:5000 or http://127.0.0.1:5000
 * AJAX for dynamic updates  
 * ![image](Project%20Document/AJAX_S.gif)
 * ![image](Project%20Document/AJAX_T.gif)
+* AI Assistant
+* ![image](Project%20Document/AI.gif)
 
 ### Roles in the System
 
@@ -82,6 +85,7 @@ URL: http://localhost:5000 or http://127.0.0.1:5000
    - System Configuration: Manage website settings
    - Log monitoring and system maintenance
    - Access to all system features
+   - AI Assistant
 
 2. Student
    - Course Management: View and register for courses
@@ -91,6 +95,7 @@ URL: http://localhost:5000 or http://127.0.0.1:5000
    - Forum Participation: Engage in discussions
    - Profile Management: Update personal information
    - Theme Customization: Modify interface appearance
+   - AI Assistant
 
 3. Teacher
    - Course Management: Create and manage courses
@@ -100,17 +105,20 @@ URL: http://localhost:5000 or http://127.0.0.1:5000
    - Forum Participation: Create and moderate discussions
    - Profile Management: Update personal information
    - Theme Customization: Modify interface appearance
+   - AI Assistant
 
 4. Library Staff
    - Resource Management: Manage library inventory
    - Loan Record Management: Handle borrowing records
    - Profile Management: Update personal information
    - Theme Customization: Modify interface appearance
+   - AI Assistant
 
 5. Security Personnel
    - E-bike Registration Approval: Review student applications
    - Profile Management: Update personal information
    - Theme Customization: Modify interface appearance
+   - AI Assistant
 
 6. Visitor
    - Library Catalog Browsing: Search available resources
@@ -146,13 +154,13 @@ app/
 
 ### Test Accounts
 
-Role | Username | Password
----|---|---
-Admin | le.liu@emails.bjut.edu.cn | 123
-Student | bohan.zhang@ucdconnect.ie | 20040422
-Teacher | 2742707462@qq.com | 20040422
-Library Staff | gaoyunhan0@gmail.com | 123456
-Security | mty@gmail.com | 20040422
+| Role          | Username                  | Password |
+|---------------|---------------------------|----------|
+| Admin         | le.liu@emails.bjut.edu.cn | 123      |
+| Student       | bohan.zhang@ucdconnect.ie | 20040422 |
+| Teacher       | 2742707462@qq.com         | 20040422 |
+| Library Staff | gaoyunhan0@gmail.com      | 123456   |
+| Security      | mty@gmail.com             | 20040422 |
 
 ### Future Development Plans
 
