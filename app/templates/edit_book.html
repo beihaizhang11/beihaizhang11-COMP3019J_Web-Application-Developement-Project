@@ -1,30 +1,92 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container">
+<div class="container-wide">
     <h2>Edit Book Information</h2>
-    <form method="POST" action="{{ url_for('main.edit_book', book_id=book.resource_id) }}">
-        {{ form.hidden_tag() }}
-        <div class="form-group">
-            {{ form.title.label(class="form-label") }}
-            {{ form.title(class="form-control") }}
-        </div>
-        <div class="form-group">
-            {{ form.author.label(class="form-label") }}
-            {{ form.author(class="form-control") }}
-        </div>
-        <div class="form-group">
-            {{ form.publication_year.label(class="form-label") }}
-            {{ form.publication_year(class="form-control") }}
-        </div>
-        <div class="form-group">
-            {{ form.category.label(class="form-label") }}
-            {{ form.category(class="form-control") }}
-        </div>
-        <div class="form-group">
-            {{ form.availability_status.label(class="form-label") }}
-            {{ form.availability_status(class="form-control") }}
-        </div>
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-    </form>
+    
+    <div class="card-container">
+        <form method="POST" action="{{ url_for('main.edit_book', book_id=book.resource_id) }}">
+            {{ form.hidden_tag() }}
+            
+            <div class="search-grid">
+                <div class="search-item">
+                    {{ form.title.label(class="form-label") }}
+                    {{ form.title(class="form-control") }}
+                    {% if form.title.errors %}
+                        {% for error in form.title.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="search-item">
+                    {{ form.author.label(class="form-label") }}
+                    {{ form.author(class="form-control") }}
+                    {% if form.author.errors %}
+                        {% for error in form.author.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="search-item">
+                    {{ form.publication_year.label(class="form-label") }}
+                    {{ form.publication_year(class="form-control", type="number", placeholder="YYYY") }}
+                    {% if form.publication_year.errors %}
+                        {% for error in form.publication_year.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="search-item">
+                    {{ form.category.label(class="form-label") }}
+                    {{ form.category(class="form-control") }}
+                    {% if form.category.errors %}
+                        {% for error in form.category.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="search-item">
+                    {{ form.availability_status.label(class="form-label") }}
+                    {{ form.availability_status(class="form-control") }}
+                    {% if form.availability_status.errors %}
+                        {% for error in form.availability_status.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                {{ form.submit(class="action-btn", value="Save Changes") }}
+                <a href="{{ url_for('main.manage_books') }}" class="action-btn action-btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
 </div>
+
+<style>
+.form-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.action-btn-secondary {
+    background: linear-gradient(45deg, #64748b, #475569);
+}
+
+.action-btn-secondary:hover {
+    background: linear-gradient(45deg, #475569, #334155);
+}
+
+.error-message {
+    color: #EF4444;
+    font-size: 0.85em;
+    margin-top: 5px;
+}
+</style>
 {% endblock %} 

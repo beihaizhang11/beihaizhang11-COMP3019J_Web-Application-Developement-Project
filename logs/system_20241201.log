@@ -1,0 +1,28 @@
+2024-12-01 13:11:14,389 - INFO - INFO: User logged in successfully: Librarian
+2024-12-01 15:08:22,185 - INFO - INFO: User logged in successfully: Yunhan Gao
+2024-12-01 15:09:13,120 - INFO - INFO: User Yunhan Gao created a new post in chat board
+2024-12-01 15:13:47,137 - INFO - INFO: User logged in successfully: Yunhan Gao
+2024-12-01 15:21:57,812 - INFO - INFO: User logged in successfully: Yunhan Gao
+2024-12-01 15:30:32,368 - INFO - INFO: User logged in successfully: Yunhan Gao
+2024-12-01 15:30:39,313 - ERROR - ERROR: System error: Could not build url for endpoint 'main.login'. Did you mean 'main.logout' instead?
+2024-12-01 15:30:43,024 - ERROR - ERROR: System error: Could not build url for endpoint 'main.login'. Did you mean 'main.logout' instead?
+2024-12-01 15:30:44,492 - ERROR - ERROR: System error: Could not build url for endpoint 'main.login'. Did you mean 'main.logout' instead?
+2024-12-01 15:30:54,355 - INFO - INFO: User logged in successfully: Yunhan Gao
+2024-12-01 15:31:34,846 - INFO - INFO: User logged in successfully: Librarian
+2024-12-01 15:32:01,914 - INFO - INFO: User logged in successfully: Yunhan Gao
+2024-12-01 15:49:27,162 - INFO - INFO: User logged in successfully: Yunhan Gao
+2024-12-01 15:49:33,723 - ERROR - ERROR: System error: (pymysql.err.OperationalError) (2013, 'Lost connection to MySQL server during query ([WinError 10060] 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。)')
+[SQL: SELECT user.id AS user_id, user.username AS user_username, user.email AS user_email, user.password AS user_password, user.user_type AS user_user_type, user.created_at AS user_created_at, user.updated_at AS user_updated_at, user.is_banned AS user_is_banned 
+FROM user 
+WHERE user.email = %(email_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'email_1': 'yunhan.gao@ucdconnect.ie', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-12-01 15:51:03,259 - INFO - INFO: User logged in successfully: ZhangBohan
+2024-12-01 15:54:28,175 - INFO - INFO: User logged in successfully: Yunhan Gao
+2024-12-01 16:02:43,800 - INFO - INFO: User logged in successfully: Sean
+2024-12-01 16:02:44,282 - INFO - INFO: User logged in successfully: Sean
+2024-12-01 16:04:12,534 - INFO - INFO: User logged in successfully: ZhangBohan
+2024-12-01 16:06:34,102 - INFO - INFO: User logged in successfully: Sean
+2024-12-01 21:50:52,936 - INFO - INFO: User logged in successfully: ZhangBohan
+2024-12-01 21:57:55,785 - INFO - INFO: User logged in successfully: mrle

@@ -4,27 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"> -->
+    
     {% if current_user.is_authenticated and current_user.preference %}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/themes/' + current_user.preference.theme + '.css') }}">
-        
         <style>
-            body { font-size: {{ {'small': '14px', 'medium': '16px', 'large': '18px'}[current_user.preference.font_size] }}; }
+            :root {
+                --font-size-base: {{ {'small': '14px', 'medium': '16px', 'large': '18px'}[current_user.preference.font_size] }};
+            }
+            body {
+                font-size: var(--font-size-base);
+            }
         </style>
     {% endif %}
+    
     <title>University Website</title>
 </head>
 <body>
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }}" role="alert">
-                    {{ message }}
-      </div>
-    {% endfor %}
-  {% endif %}
-{% endwith %}
+            <div class="notifications-container">
+                {% for category, message in messages %}
+                    <div class="notification notification-{{ category }}" role="alert">
+                        <div class="notification-icon">
+                            {% if category == 'success' %}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            {% elif category == 'danger' %}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                                    <line x1="15" y1="9" x2="9" y2="15" stroke-width="2"/>
+                                    <line x1="9" y1="9" x2="15" y2="15" stroke-width="2"/>
+                                </svg>
+                            {% elif category == 'warning' %}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                </svg>
+                            {% else %}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                                    <line x1="12" y1="16" x2="12" y2="12" stroke-width="2"/>
+                                    <line x1="12" y1="8" x2="12" y2="8" stroke-width="2"/>
+                                </svg>
+                            {% endif %}
+                        </div>
+                        <div class="notification-content">{{ message }}</div>
+                        <button class="notification-close" onclick="this.parentElement.remove()">×</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
     <header>
         <nav>
             <ul>
@@ -68,6 +98,7 @@
                         <li><a href="{{ url_for('main.account_settings') }}" class="text-danger">Account Settings</a></li>
                     {% endif %}
 
+                    <li><a href="{{ url_for('main.ai_assistant') }}">AI Assistant</a></li>
                     <li><a href="{{ url_for('main.logout') }}">Logout</a></li>
                 {% endif %}
             </ul>

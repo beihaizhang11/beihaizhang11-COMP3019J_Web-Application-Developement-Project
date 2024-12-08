@@ -1,5 +1,6 @@
-# COMP3019J Assignment
+# COMP3019J Project
 
+English | [简体中文](README_zh.md)
 ### Project Name: BJUT Unified Identity Authentication System
 
 ### Team_20 Members:
@@ -19,7 +20,8 @@ The primary goal of this project is to design and implement a comprehensive univ
 4. E-bike Registration System
 5. Forum Platform
 6. Theme Customization
-7. System Logging
+7. AI Assistant
+8. System Logging
 
 ### Preview this project
 
@@ -45,11 +47,15 @@ pip install -r requirements.txt
 
 #### Run this web server
 
+```shell
 flask run
+```
 
 or
 
+```shell
 python run.py
+````
 
 #### Access the website
 
@@ -63,8 +69,14 @@ URL: http://localhost:5000 or http://127.0.0.1:5000
 * Password encryption
 * Comprehensive logging system
 * Theme customization (Light/Dark mode)
+* ![image](Project%20Document/STYLE.gif)
 * Form validation with JavaScript
-* AJAX for dynamic updates
+* ![image](Project%20Document/JS.gif)
+* AJAX for dynamic updates  
+* ![image](Project%20Document/AJAX_S.gif)
+* ![image](Project%20Document/AJAX_T.gif)
+* AI Assistant
+* ![image](Project%20Document/AI.gif)
 
 ### Roles in the System
 
@@ -73,6 +85,7 @@ URL: http://localhost:5000 or http://127.0.0.1:5000
    - System Configuration: Manage website settings
    - Log monitoring and system maintenance
    - Access to all system features
+   - AI Assistant
 
 2. Student
    - Course Management: View and register for courses
@@ -82,6 +95,7 @@ URL: http://localhost:5000 or http://127.0.0.1:5000
    - Forum Participation: Engage in discussions
    - Profile Management: Update personal information
    - Theme Customization: Modify interface appearance
+   - AI Assistant
 
 3. Teacher
    - Course Management: Create and manage courses
@@ -91,17 +105,20 @@ URL: http://localhost:5000 or http://127.0.0.1:5000
    - Forum Participation: Create and moderate discussions
    - Profile Management: Update personal information
    - Theme Customization: Modify interface appearance
+   - AI Assistant
 
 4. Library Staff
    - Resource Management: Manage library inventory
    - Loan Record Management: Handle borrowing records
    - Profile Management: Update personal information
    - Theme Customization: Modify interface appearance
+   - AI Assistant
 
 5. Security Personnel
    - E-bike Registration Approval: Review student applications
    - Profile Management: Update personal information
    - Theme Customization: Modify interface appearance
+   - AI Assistant
 
 6. Visitor
    - Library Catalog Browsing: Search available resources
@@ -137,13 +154,13 @@ app/
 
 ### Test Accounts
 
-Role | Username | Password
----|---|---
-Admin | le.liu@emails.bjut.edu.cn | 123
-Student | bohan.zhang@ucdconnect.ie | 20040422
-Teacher | 2742707462@qq.com | 20040422
-Library Staff | gaoyunhan0@gmail.com | 123456
-Security | mty@gmail.com | 20040422
+| Role          | Username                  | Password |
+|---------------|---------------------------|----------|
+| Admin         | le.liu@emails.bjut.edu.cn | 123      |
+| Student       | bohan.zhang@ucdconnect.ie | 20040422 |
+| Teacher       | 2742707462@qq.com         | 20040422 |
+| Library Staff | gaoyunhan0@gmail.com      | 123456   |
+| Security      | mty@gmail.com             | 20040422 |
 
 ### Future Development Plans
 
@@ -173,7 +190,7 @@ web-application/
 ├── Project Document/    # Project document and videos
 ├── tests/               # Tests
 ├── .env/                # Enviroment variables
-├── .env.example/        # Example for enviroment variables
+├── .env.example/        # Example for environment variables
 ├── .gitignore/ 
 ├── config.py/           # Config files
 ├── README.md/
@@ -195,7 +212,7 @@ Repository URL: https://csgitlab.ucd.ie/webApplication/web-application
 
 MIT License
 
-Copyright (c) 2024 Team 20
+Copyright (c) 2024 Team 20 Bohan Zhang, Yunhan Gao and Le Liu
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

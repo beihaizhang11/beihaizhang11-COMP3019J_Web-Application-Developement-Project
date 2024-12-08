@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container">
-    <div class="account-settings-box">
+    <div class="account-settings-box card-container">
         <h2>Account Settings</h2>
         <div class="warning-section">
             <h3>Delete Account</h3>
-            <div class="alert alert-danger">
+            <div class="warning-alert">
                 <h4>Warning!</h4>
                 <p>Deleting your account will:</p>
                 <ul>
@@ -26,7 +26,7 @@
                         {% endfor %}
                     {% endif %}
                 </div>
-                <div class="form-check mb-3">
+                <div class="form-check">
                     {{ form.confirm(class="form-check-input") }}
                     <label class="form-check-label" for="confirm">
                         I understand that this action cannot be undone
@@ -37,9 +37,155 @@
                         {% endfor %}
                     {% endif %}
                 </div>
-                {{ form.submit(class="btn btn-danger", value="Delete Account") }}
+                {{ form.submit(class="delete-btn") }}
             </form>
         </div>
     </div>
 </div>
-{% endblock %} 
+
+<style>
+.account-settings-box {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: var(--bg-card, rgba(255, 255, 255, 0.95));
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color, rgba(255, 255, 255, 0.2));
+}
+
+.account-settings-box h2 {
+    margin-bottom: 1.5rem;
+    color: var(--text-primary, #1e293b);
+    font-size: 1.8rem;
+}
+
+.warning-section {
+    margin-top: 2rem;
+}
+
+.warning-section h3 {
+    color: var(--text-primary, #1e293b);
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+}
+
+.warning-alert {
+    background: rgba(239, 68, 68, 0.1);
+    border-left: 4px solid #EF4444;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+}
+
+.warning-alert h4 {
+    color: #EF4444;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.warning-alert p {
+    color: var(--text-primary, #1e293b);
+    margin-bottom: 1rem;
+}
+
+.warning-alert ul {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+    color: var(--text-primary, #1e293b);
+}
+
+.warning-alert li {
+    margin-bottom: 0.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary, #1e293b);
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+    border-radius: 6px;
+    background: var(--bg-input, rgba(255, 255, 255, 0.9));
+    color: var(--text-primary, #1e293b);
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #EF4444;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.1);
+}
+
+.form-check {
+    margin: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-check-input {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-top: 0.2rem;
+}
+
+.form-check-label {
+    color: var(--text-primary, #1e293b);
+    font-size: 0.95rem;
+}
+
+.delete-btn {
+    background: linear-gradient(45deg, #EF4444, #DC2626);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+.delete-btn:active {
+    transform: translateY(0);
+}
+
+.error-message {
+    color: #EF4444;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    display: block;
+}
+
+/* 深色模式特定样式 */
+@media (prefers-color-scheme: dark) {
+    .warning-alert {
+        background: rgba(239, 68, 68, 0.1);
+    }
+    
+    .form-control {
+        background: var(--bg-input, rgba(255, 255, 255, 0.05));
+    }
+    
+    .form-control:focus {
+        background: var(--bg-input, rgba(255, 255, 255, 0.1));
+    }
+}
+</style>
+{% endblock %}

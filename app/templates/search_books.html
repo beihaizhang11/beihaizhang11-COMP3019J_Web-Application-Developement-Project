@@ -1,58 +1,201 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container search-container">
-    <h2>Search Library Resources</h2>
+
+{% if is_guest %}
+<!-- 访客专用样式 -->
+<style>
+.search-container {
+    color: #333; /* 深色文字 */
+}
+
+.form-label {
+    color: #333 !important; /* 深色标签文字 */
+}
+
+.table {
+    color: #333 !important; /* 深色表格文字 */
+}
+
+.table td {
+    color: #333 !important; /* 深色表格单元格文字 */
+}
+
+.status-badge {
+    color: white !important; /* 状态标签保持白色文字 */
+}
+
+/* 覆盖任何可能的深色模式样式 */
+.search-results a {
+    color: #2563eb !important; /* 使用亮色主题的链接颜色 */
+}
+
+.form-control {
+    color: #333 !important;
+    background: #fff !important;
+}
+
+.form-control::placeholder {
+    color: #666 !important;
+}
+
+.card-container {
+    color: #333 !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* 状态标签样式 */
+.status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85em;
+    font-weight: 500;
+    text-transform: capitalize;
+    text-align: center;
+    min-width: 100px;
+    color: white !important;
+}
+
+/* 不同状态的背景色 */
+.status-available {
+    background-color: #10B981 !important;
+}
+
+.status-borrowed {
+    background-color: #F59E0B !important;
+}
+
+.status-reserved {
+    background-color: #6366F1 !important;
+}
+
+.status-lost {
+    background-color: #EF4444 !important;
+}
+
+/* 表格样式优化 */
+.table th {
+    background: linear-gradient(45deg, #1e3c72, #2a5298) !important;
+    color: white !important;
+    padding: 15px !important;
+}
+
+.table td {
+    padding: 12px 15px !important;
+    vertical-align: middle !important;
+}
+
+/* 确保表格内容垂直居中对齐 */
+.table td .status-badge {
+    margin: 0 auto;
+}
+
+.back-button-container {
+        text-align: left;
+        padding: 10px 0;
+    }
     
-    <div class="search-form">
-        <form method="POST">
+    .btn-secondary {
+        background: linear-gradient(45deg, #2a5298, #1e3c72);
+        border: none;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-secondary:hover {
+        background: linear-gradient(45deg, #1e3c72, #2a5298);
+        transform: translateY(-2px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    
+    /* 确保图标和文字垂直对齐 */
+    .btn-secondary i {
+        margin-right: 5px;
+        vertical-align: middle;
+    }
+</style>
+{% endif %}
+
+
+
+<div class="container-wide">
+    <div class="card-container">
+        <!-- 添加返回按钮 -->
+        {% if is_guest %}
+        <div class="back-button-container" style="margin-bottom: 20px;">
+            <button onclick="window.history.back()" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+        </div>
+        {% endif %}
+        <h2>Search Books</h2>
+        
+        <form method="POST" class="mb-4">
             {{ form.hidden_tag() }}
-            <div class="row">
-                <div class="col-md-3">
+            
+            <div class="search-grid">
+                <div class="search-item">
                     {{ form.title.label(class="form-label") }}
-                    {{ form.title(class="form-control") }}
+                    {{ form.title(class="form-control", placeholder="Enter book title") }}
                 </div>
-                <div class="col-md-3">
+                
+                <div class="search-item">
                     {{ form.author.label(class="form-label") }}
-                    {{ form.author(class="form-control") }}
+                    {{ form.author(class="form-control", placeholder="Enter author name") }}
                 </div>
-                <div class="col-md-2">
+                
+                <div class="search-item">
                     {{ form.publication_year.label(class="form-label") }}
                     {{ form.publication_year(class="form-control") }}
                 </div>
-                <div class="col-md-2">
+                
+                <div class="search-item">
                     {{ form.availability_status.label(class="form-label") }}
                     {{ form.availability_status(class="form-control") }}
                 </div>
-                <div class="col-md-2 d-flex align-items-end">
-                    {{ form.submit(class="btn btn-primary w-100") }}
+                
+                <div class="search-button">
+                    {{ form.submit(class="action-btn") }}
                 </div>
             </div>
         </form>
-    </div>
 
-    <div class="search-results">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Year</th>
-                    <th>Category</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for book in books %}
-                <tr>
-                    <td>{{ book.title }}</td>
-                    <td>{{ book.author }}</td>
-                    <td>{{ book.publication_year }}</td>
-                    <td>{{ book.category }}</td>
-                    <td>{{ book.availability_status }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        {% if books %}
+        <div class="search-results">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Year</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in books %}
+                    <tr>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.author }}</td>
+                        <td>{{ book.publication_year }}</td>
+                        <td>{{ book.category }}</td>
+                        <td>
+                            {% set status = book.availability_status.lower() %}
+                            <!-- 调试信息 -->
+                            <!-- {{ status }} -->
+                            <span class="status-badge status-{{ status }}">
+                                {{ book.availability_status | title }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %} 
