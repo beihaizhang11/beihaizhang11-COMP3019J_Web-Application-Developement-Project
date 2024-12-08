@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify
 from flask_login import login_user, current_user, login_required, logout_user
-from sqlalchemy.exc import SQLAlchemyError  # 添加这行
+from sqlalchemy.exc import SQLAlchemyError
 from app.forms import RegisterForm, LoginForm, TeacherProfileForm, StudentProfileForm, CreateCourseForm, \
     RegisterCourseForm, ForumPostForm, ForumReplyForm, LibraryStaffProfileForm, AddBookForm, SearchBookForm, \
     AddGradeForm, EBikeForm, SecurityProfileForm, UserPreferenceForm, EditUserForm, DeleteAccountForm
@@ -28,9 +28,9 @@ def check_banned():
     Logging:
         - None
     """
-    # 检查当前用户是否登录且被封禁
+    # Check if the current user is logged in and blocked
     if current_user.is_authenticated and current_user.is_banned:
-        # 如果是被封禁用户,则登出并重定向到首页
+        # If the user is banned, log out and redirect to the home page
         logout_user()
         flash('Your account has been banned. Please contact the administrator.','danger')
         return redirect(url_for('main.index'))
@@ -71,7 +71,7 @@ def index():
             return redirect(url_for('main.profile', user_id=user.id))
         else:
             system_logger.log_warning(f"Failed login attempt for email: {form.email.data}")
-            # 修改这里：添加表单错误而不是使用 flash
+            # Modify this: add form error instead of using flash
             if user:
                 form.password.errors.append('Incorrect password')
             else:
@@ -403,7 +403,7 @@ def register_course():
     
     form = RegisterCourseForm()
     
-    # 获取所有教师用户
+    # Get all teacher users
     teachers = User.query.filter_by(user_type='teacher').all()
     
     if form.validate_on_submit():
@@ -837,8 +837,8 @@ def search_books():
     books = query.all()
     book_count = len(books)
     
-    # 添加搜索结果提示
-    if form.validate_on_submit():  # 只在提交搜索时显示提示
+    # Add search result hint
+    if form.validate_on_submit():  # Only show hints when submitting a search
         if book_count == 0:
             flash('No books found matching your search criteria.', 'info')
         elif book_count == 1:
@@ -846,13 +846,13 @@ def search_books():
         else:
             flash(f'Successfully found {book_count} books!', 'success')
     
-    # 添加一个标志来标识是否是访客访问
+    # Add a flag to indicate whether it is a guest access
     is_guest = not current_user.is_authenticated
     
     return render_template('search_books.html', 
                          form=form, 
                          books=books,
-                         is_guest=is_guest)  # 传递访客标志到模板
+                         is_guest=is_guest)  # Passing visitor logo to template
 
 @main_routes.route('/library_statistics')
 @login_required
@@ -925,8 +925,7 @@ def manage_books():
         
         books = query.all()
         book_count = len(books)
-        
-        # 添加搜索结果提示
+
         if form.validate_on_submit():
             if book_count == 0:
                 flash('No books found matching your search criteria.', 'info')
@@ -1125,15 +1124,12 @@ def select_grade_entry():
     Access Control:
         - Requires teacher privileges
     """
-    # 检查用户权限，仅允许教师访问
     if current_user.user_type != 'teacher':
         flash("You are not authorized to access this page.", "danger")
         return redirect(url_for('main.index'))
 
-    # 获取当前教师创建的课程
     courses = Course.query.filter_by(created_by=current_user.id).all()
 
-    # 初始化学生为空，在前端根据选的课程动态加载
     students = []
 
     return render_template('select_grade_entry.html', courses=courses, students=students)
@@ -1151,12 +1147,10 @@ def get_students_by_course(course_id):
         GET: Retrieve student list for course
 
     """
-    # 验证该课程是否由当前教师创建
     course = Course.query.filter_by(id=course_id, created_by=current_user.id).first()
     if not course:
         return jsonify({'error': 'Unauthorized access'}), 403
 
-    # 查询注册了该课程的学生
     registrations = CourseRegistration.query.filter_by(course_id=course_id).all()
     students = [
         {'id': reg.user_id, 'username': User.query.get(reg.user_id).username}
@@ -1192,7 +1186,7 @@ def e_bike_management():
         flash("You are not authorized to access this page.", "danger")
         return redirect(url_for('main.index'))
 
-    # 查询当前学生的电动车信息
+    # search current student's ebike data
     e_bike = EBikeLicense.query.filter_by(owner_id=current_user.id).first()
     form = EBikeForm(obj=e_bike)
 
@@ -1201,7 +1195,7 @@ def e_bike_management():
             e_bike = EBikeLicense(owner_id=current_user.id)
         e_bike.license_plate = form.license_plate.data
         e_bike.bike_model = form.bike_model.data
-        e_bike.status = 'Pending'  # 每次创建或修改后自动变为"申请"状态
+        e_bike.status = 'Pending'  # change status to pending every edit or create
         e_bike.registration_date = None
         e_bike.expiration_date = None
         e_bike.approved_by = None
@@ -1238,7 +1232,6 @@ def manage_ebikes():
         flash('Access denied. Security personnel only.', 'danger')
         return redirect(url_for('main.index'))
 
-    # 获取所有电动车申请，并按 ID 倒序排列
     ebikes = EBikeLicense.query.order_by(EBikeLicense.license_id.desc()).all()
     return render_template('manage_ebikes.html', ebikes=ebikes)
 
@@ -1431,13 +1424,13 @@ def create_user():
         - ERROR: Creation failures
     """
     if current_user.user_type != 'admin':
-        flash('访问被拒绝。仅限管理员使用。', 'danger')
+        flash('access denied', 'danger')
         return redirect(url_for('main.index'))
     form = RegisterForm()
     if form.validate_on_submit():
         existing_user = User.query.filter_by(email=form.email.data).first()
         if existing_user:
-            flash('该邮箱已被注册。请使用其他邮箱。', 'danger')
+            flash('This email is registered.', 'danger')
             return redirect(url_for('main.create_user'))
         hashed_password = generate_password_hash(form.password.data, method='pbkdf2:sha256')
         new_user = User(
@@ -1478,23 +1471,23 @@ def delete_user(user_id):
         - Handles cascade deletion of related data
     """
     if current_user.user_type != 'admin':
-        flash('访问被拒绝。仅限管理员使用。', 'danger')
+        flash('access denied.', 'danger')
         return redirect(url_for('main.index'))
 
     try:
         user = User.query.get_or_404(user_id)
         username = user.username
         user_type = user.user_type
-        # 1. 根据用户类型处理特定关联数据
+        # 1. process data based on user type
         if user.user_type == 'student':
-            # 处理学生相关数据
+            # deal with student data
             CourseRegistration.query.filter_by(user_id=user.id).delete()
             StudentGrade.query.filter_by(student_id=user.id).delete()
             EBikeLicense.query.filter_by(owner_id=user.id).delete()
             StudentProfile.query.filter_by(user_id=user.id).delete()
 
         elif user.user_type == 'teacher':
-            # 处理教师相关数据
+            # deal with teacher data
             courses = Course.query.filter_by(created_by=user.id).all()
             for course in courses:
                 StudentGrade.query.filter_by(course_id=course.id).delete()
@@ -1503,16 +1496,16 @@ def delete_user(user_id):
             TeacherProfile.query.filter_by(user_id=user.id).delete()
 
         elif user.user_type == 'security':
-            # 处理安保人员相关数据
+            # deal with security data
             EBikeLicense.query.filter_by(approved_by=user.id).update({EBikeLicense.approved_by: None})
             SecurityProfile.query.filter_by(user_id=user.id).delete()
 
         elif user.user_type == 'library_staff':
-            # 处理图书管理员相关数据
+            # deal with library data
             LibraryStaffProfile.query.filter_by(user_id=user.id).delete()
         
         elif user.user_type == 'admin':
-            # 检查是否是最后一个管理员
+            # check if it is last admin
             admin_count = User.query.filter_by(user_type='admin').count()
             if admin_count <= 1:
                 from flask import session
@@ -1520,18 +1513,18 @@ def delete_user(user_id):
                 return redirect(url_for('main.manage_users'))
             AdminProfile.query.filter_by(user_id=user.id).delete()
 
-        # 2. 处理论坛相关数据（除了安保人员）
+        # 2. delete forum data
         if user.user_type != 'security':
             posts = ForumPost.query.filter_by(author_id=user.id).all()
             for post in posts:
                 ForumReply.query.filter_by(post_id=post.post_id).delete()
             ForumReply.query.filter_by(replier_id=user.id).delete()
             ForumPost.query.filter_by(author_id=user.id).delete()
-        
-        # 3. 删除用户偏好设置（所有类型用户都有）
+
+        # 3. delete preference
         UserPreference.query.filter_by(user_id=user.id).delete()
-        
-        # 4. 最后删除用户本身
+
+        # 4. delete user
         db.session.delete(user)
         db.session.commit()
         
@@ -1567,7 +1560,7 @@ def preferences():
         - Requires user to be logged in
     """
 
-    # 获取或创建用户偏好
+    # get or create preference
     user_pref = UserPreference.query.filter_by(user_id=current_user.id).first()
     if not user_pref:
         user_pref = UserPreference(user_id=current_user.id)
@@ -1693,7 +1686,7 @@ def edit_user(user_id):
         - ERROR: Update failures
     """
     if current_user.user_type != 'admin':
-        flash('访问被拒绝。仅限管理员使用。', 'danger')
+        flash('access denied.', 'danger')
         return redirect(url_for('main.index'))
     
     user = User.query.get_or_404(user_id)
@@ -1703,7 +1696,7 @@ def edit_user(user_id):
 
         user.user_type = form.user_type.data
         
-        if form.password.data:  # 只有当输入了新密码时才更新密码
+        if form.password.data:
             user.password = generate_password_hash(form.password.data, method='pbkdf2:sha256')
             
         db.session.commit()
@@ -1791,14 +1784,14 @@ def view_logs():
         flash('Access denied. Admin only.', 'danger')
         return redirect(url_for('main.index'))
     
-    # 获取日志文件列表
+    # get logs
     log_dir = 'logs'
     log_files = []
     if os.path.exists(log_dir):
         log_files = [f for f in os.listdir(log_dir) if f.endswith('.log')]
         log_files.sort(reverse=True)  # 最新的文件在前
     
-    # 读取选的日志文件
+    # read log
     selected_log = request.args.get('file', '')
     log_content = {'errors': [], 'warnings': [], 'info': []}
     
@@ -1848,10 +1841,10 @@ def delete_account():
     if form.validate_on_submit():
         if check_password_hash(current_user.password, form.password.data):
             try:
-                # 开启数据库会话
+                # start session
                 db.session.begin_nested()
                 
-                # 保存用户信息用于日志
+                # sava user action for log
                 user_id = current_user.id
                 username = current_user.username
                 user_type = current_user.user_type
@@ -1859,13 +1852,13 @@ def delete_account():
                 system_logger.log_info(f"Starting account deletion for user: {username} ({user_type})")
 
                 try:
-                    # 1. 删除论坛相关数据
+                    # 1. delete forum data
                     system_logger.log_info("Deleting forum data...")
                     reply_count = ForumReply.query.filter_by(replier_id=user_id).delete()  # 修改 user_id 为 replier_id
                     post_count = ForumPost.query.filter_by(author_id=user_id).delete()  # 修改 user_id 为 author_id
                     system_logger.log_info(f"Deleted {reply_count} replies and {post_count} posts")
 
-                    # 2. 根据用户类型删除特定数据
+                    # 2. delete profile based on user type
                     if user_type == 'student':
                         system_logger.log_info("Deleting student data...")
                         StudentGrade.query.filter_by(student_id=user_id).delete()
@@ -1893,21 +1886,21 @@ def delete_account():
                         system_logger.log_info("Deleting library staff data...")
                         LibraryStaffProfile.query.filter_by(user_id=user_id).delete()
 
-                    # 3. 删除用户偏好设置
+                    # 3. delete preference
                     system_logger.log_info("Deleting user preferences...")
                     UserPreference.query.filter_by(user_id=user_id).delete()
 
-                    # 4. 登出用户
+                    # 4. logout
                     system_logger.log_info("Logging out user...")
                     logout_user()
 
-                    # 5. 删除用户账户
+                    # 5. delete account
                     system_logger.log_info("Deleting user account...")
                     user = User.query.get(user_id)
                     if user:
                         db.session.delete(user)
                     
-                    # 6. 提交所有更改
+                    # 6. Submit
                     system_logger.log_info("Committing changes...")
                     db.session.commit()
 
@@ -1929,7 +1922,7 @@ def delete_account():
             flash('Incorrect password.', 'danger')
             return redirect(url_for('main.account_settings'))
     
-    # 如果表单验证失败，显示具体错误
+    # If validation false
     for field, errors in form.errors.items():
         for error in errors:
             flash(f'{field}: {error}', 'danger')
@@ -2024,7 +2017,7 @@ def chat():
     """
     message = request.json.get('message', '')
     
-    # Wenxin Yiyan API configuration - 使用环境变量
+    # Wenxin Yiyan API configuration
     API_KEY = os.getenv('WENXIN_API_KEY')
     SECRET_KEY = os.getenv('WENXIN_SECRET_KEY')
     
@@ -2117,7 +2110,7 @@ def chat():
         # Uniform request to add an English reply at the end of the prompt
         prompt += "\n\nIMPORTANT: Always respond in English, regardless of the language of the question."
         
-        # Configure Wenxin Yiyan requests - 使用环境变量
+        # Configure Wenxin Yiyan requests
         url = f"{os.getenv('WENXIN_API_URL')}?access_token={get_access_token()}"
         
         payload = json.dumps({

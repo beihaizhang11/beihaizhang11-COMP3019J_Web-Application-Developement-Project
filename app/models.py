@@ -247,9 +247,9 @@ class LibraryStaffProfile(db.Model):
     name = db.Column(db.String(100), nullable=False)
     gender = db.Column(db.String(10))
     email = db.Column(db.String(120), nullable=False)
-    department = db.Column(db.String(100), nullable=False)  # 图书馆部门
-    position = db.Column(db.String(100), nullable=False)    # 职位
-    work_hours = db.Column(db.String(100))                 # 工作时间
+    department = db.Column(db.String(100), nullable=False)
+    position = db.Column(db.String(100), nullable=False)
+    work_hours = db.Column(db.String(100))
     biography = db.Column(db.Text, nullable=True)
 
     # Define relationship with User
