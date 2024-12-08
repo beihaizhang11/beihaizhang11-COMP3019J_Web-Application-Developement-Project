@@ -14,7 +14,7 @@ function toggleReplies() {
 document.addEventListener("DOMContentLoaded", () => {
     const background = document.querySelector('.interactive-background');
     
-    // 只在存在背景元素时执行粒子效果
+    // Execute particle effects only if the background element exists
     if (background) {
         // Generate floating particles
         for (let i = 0; i < 40; i++) {
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 自动隐藏通知
+    // Automatically hide notifications
     const notifications = document.querySelectorAll('.notification');
     if (notifications.length > 0) {
         notifications.forEach(notification => {
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 添加滑出动画
+    // Add slide-out animation
     const style = document.createElement('style');
     style.textContent = `
         @keyframes slideOut {

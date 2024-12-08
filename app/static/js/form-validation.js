@@ -1,31 +1,31 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // 获取所有带有错误信息的输入框
+    // Get all input fields with error messages
     const inputsWithErrors = document.querySelectorAll('.form-control');
-    
+
     inputsWithErrors.forEach(input => {
-        // 检查是否存在错误信息
+        // Check if there is an error message
         const errorSpan = input.parentElement.querySelector('.error-message');
         if (errorSpan) {
-            // 添加错误样式
+            // Add error styling
             input.classList.add('error');
-            // 清空输入值
+            // Clear the input value
             input.value = '';
-            
-            // 添加输入事件监听器
+
+            // Add an input event listener
             input.addEventListener('input', function() {
-                // 当用户开始输入时移除错误样式
+                // Remove error styling when the user starts typing
                 this.classList.remove('error');
-                // 隐藏错误信息
+                // Hide error messages
                 const errorMessages = this.parentElement.querySelectorAll('.error-message');
                 errorMessages.forEach(msg => msg.style.display = 'none');
             });
         }
     });
 
-    // 判断当前页面
+    // Check the current page
     const isRegisterPage = window.location.pathname.includes('register');
-    
-    // 仅在注册页面添加密码验证
+
+    // Add password validation only on the registration page
     if (isRegisterPage) {
         const passwordInputs = document.querySelectorAll('input[type="password"]');
         passwordInputs.forEach(input => {
@@ -45,7 +45,7 @@ function validatePassword(input, showError = false) {
     let isValid = true;
     let errorMessage = '';
 
-    // 简化的密码验证规则
+    // Simplified password validation rules
     if (password.length < 6) {
         isValid = false;
         errorMessage = 'Password must be at least 6 characters long';
@@ -60,7 +60,7 @@ function validatePassword(input, showError = false) {
         errorMessage = 'Password must contain at least one number';
     }
 
-    // 获取或创建错误消息元素
+    // Get or create the error message element
     let errorSpan = input.parentElement.querySelector('.error-message');
     if (!errorSpan && !isValid) {
         errorSpan = document.createElement('span');
@@ -68,7 +68,7 @@ function validatePassword(input, showError = false) {
         input.parentElement.appendChild(errorSpan);
     }
 
-    // 更新输入框样式和错误消息
+    // Update input field styling and error message
     if (!isValid && showError) {
         input.classList.add('error');
         if (errorSpan) {
@@ -85,10 +85,10 @@ function validatePassword(input, showError = false) {
     return isValid;
 }
 
-// 表单提交验证
+// Form submission validation
 document.querySelectorAll('form').forEach(form => {
     form.addEventListener('submit', function(event) {
-        // 仅在注册页面进行密码验证
+        // Perform password validation only on the registration page
         if (window.location.pathname.includes('register')) {
             const passwordInput = this.querySelector('input[type="password"]');
             if (passwordInput && !validatePassword(passwordInput, true)) {
