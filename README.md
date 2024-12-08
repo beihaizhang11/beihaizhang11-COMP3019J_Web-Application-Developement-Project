@@ -33,6 +33,8 @@ This is a **preview version** of this project. Please use Python to run this pro
 
 #### Set up environment
 
+**Note**: To run this project, you have to make sure your device is connect to Internet. Because we use a remote database hosted in Alibaba Cloud Server.
+
 1. Install Python 3.10
 2. Using the following code to set up the environment:
 
