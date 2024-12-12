@@ -1,0 +1,24 @@
+2024-12-05 13:33:45,826 - INFO - INFO: User logged in successfully: mrle
+2024-12-05 13:34:02,790 - INFO - INFO: User logged in successfully: ZhangBohan
+2024-12-05 13:41:55,307 - INFO - INFO: User logged in successfully: ZhangBohan
+2024-12-05 13:45:43,763 - WARNING - WARNING: Failed login attempt for email: yunhangao0@gmail.com
+2024-12-05 13:45:52,567 - WARNING - WARNING: Failed login attempt for email: yunhangao0@gmail.com
+2024-12-05 13:46:16,360 - INFO - INFO: User logged in successfully: ZhangBohan
+2024-12-05 13:49:23,038 - INFO - INFO: User logged in successfully: ZhangBohan
+2024-12-05 13:49:27,799 - ERROR - ERROR: System error: Could not build url for endpoint 'main.login'. Did you mean 'main.logout' instead?
+2024-12-05 13:49:30,333 - ERROR - ERROR: System error: Could not build url for endpoint 'main.login'. Did you mean 'main.logout' instead?
+2024-12-05 13:49:33,658 - INFO - INFO: User logged in successfully: ZhangBohan
+2024-12-05 14:04:42,555 - INFO - INFO: User logged in successfully: mrle
+2024-12-05 15:02:11,787 - ERROR - ERROR: System error: (pymysql.err.OperationalError) (2013, 'Lost connection to MySQL server during query ([WinError 10054] 远程主机强迫关闭了一个现有的连接。)')
+[SQL: SELECT user.id AS user_id, user.username AS user_username, user.email AS user_email, user.password AS user_password, user.user_type AS user_user_type, user.created_at AS user_created_at, user.updated_at AS user_updated_at, user.is_banned AS user_is_banned 
+FROM user 
+WHERE user.email = %(email_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'email_1': 'bohan.zhang@ucdconnect.ie', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-12-05 15:02:41,304 - WARNING - WARNING: Failed login attempt for email: bohan.zhang@ucdconnect.ie
+2024-12-05 15:02:47,186 - WARNING - WARNING: Failed login attempt for email: bohan.zhang@ucdconnect.ie
+2024-12-05 15:03:00,272 - WARNING - WARNING: Failed login attempt for email: bohan.zhang@ucdconnect.ie
+2024-12-05 15:03:25,947 - INFO - INFO: User logged in successfully: ZhangBohan
+2024-12-05 15:05:28,863 - INFO - INFO: User logged in successfully: Sean
+2024-12-05 22:57:58,546 - INFO - INFO: User logged in successfully: ZhangBohan
